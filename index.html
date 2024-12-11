@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHANTOM.GG - CS2 Cheat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(128, 0, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(rgba(128, 0, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(128, 0, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+            background-position: center;
+            z-index: -2;
+            animation: backgroundPulse 8s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70vh;
+            background: linear-gradient(0deg, 
+                rgba(128, 0, 255, 0.3) 0%,
+                rgba(255, 0, 255, 0.2) 25%,
+                rgba(128, 0, 255, 0.1) 60%,
+                transparent 100%
+            );
+            z-index: -1;
+            pointer-events: none;
+            animation: gradientPulse 5s ease-in-out infinite alternate;
+        }
+
+        .mist {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50vh;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(128, 0, 255, 0.1) 0%,
+                transparent 70%
+            );
+            filter: blur(40px);
+            z-index: -1;
+            animation: mistFloat 20s ease-in-out infinite alternate;
+        }
+
+        .toolbar {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 1.2rem;
+            box-shadow: 0 0 30px rgba(128, 0, 255, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(128, 0, 255, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff00ff, #8000ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            color: #8000ff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid rgba(128, 0, 255, 0.2);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link i {
+            font-size: 1rem;
+            color: #8000ff;
+        }
+
+        .nav-link:hover {
+            background: rgba(128, 0, 255, 0.15);
+            transform: translateY(-2px);
+            border-color: rgba(128, 0, 255, 0.4);
+        }
+
+        .main-content {
+            padding-top: 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .section {
+            display: none;
+            padding: 2rem;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .product-card {
+            background: rgba(15, 15, 15, 0.95);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 40px rgba(128, 0, 255, 0.15);
+            border: 1px solid rgba(128, 0, 255, 0.2);
+            backdrop-filter: blur(10px);
+            animation: cardFloat 3s ease-in-out infinite alternate;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #ff00ff, #8000ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .product-title i {
+            font-size: 2rem;
+            color: #8000ff;
+        }
+
+        .product-description {
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .features-list li {
+            padding: 1rem;
+            background: rgba(128, 0, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .features-list li:hover {
+            background: rgba(128, 0, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .features-list li i {
+            color: #8000ff;
+            font-size: 1.2rem;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(128, 0, 255, 0.5);
+        }
+
+        .price-period {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        .buy-button {
+            background: linear-gradient(45deg, #ff00ff, #8000ff);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 25px rgba(128, 0, 255, 0.3);
+        }
+
+        .info-section {
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .info-card {
+            background: rgba(15, 15, 15, 0.95);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 40px rgba(128, 0, 255, 0.15);
+            border: 1px solid rgba(128, 0, 255, 0.2);
+        }
+
+        .info-title {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .info-title i {
+            color: #8000ff;
+        }
+
+        .info-content {
+            color: #aaa;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        @keyframes cardFloat {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes gradientPulse {
+            0% {
+                opacity: 0.5;
+                transform: translateY(10%);
+            }
+            100% {
+                opacity: 0.8;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes mistFloat {
+            0% {
+                transform: translateX(-10%) translateY(5%);
+            }
+            100% {
+                transform: translateX(10%) translateY(-5%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .product-title {
+                font-size: 2rem;
+            }
+            
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+          .purchase-info {
+    color: #727272;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+
+        }
+    </style>
+</head>
+<body>
+    <div class="mist"></div>
+    
+    <nav class="toolbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-cloud"></i>
+                PHANTOM.GG
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link" data-section="home">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+                <a href="#" class="nav-link" data-section="info">
+                    <i class="fas fa-info-circle"></i>
+                    Information
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <section id="home" class="section active">
+            <div class="product-card">
+                <h1 class="product-title">
+                    <i class="fas fa-cogs"></i>
+                    Phantom CS2
+                </h1>
+                <p class="product-description">
+                  <i class="fas fa-ghost icon-purple"></i>
+                    Try the new Legit cheat| PHANTOM.GG | with 0% ban and constant updates, which is done by our team, This Is a Function:
+                </p>
+                <ul class="features-list">
+                    <li>
+                        <i class="fas fa-crosshairs"></i>
+                        Next-Gen Aimbot with Human-like Behavior
+                    </li>
+                    <li>
+                        <i class="fas fa-eye"></i>
+                        Advanced ESP with Custom Filters
+                    </li>
+                    <li>
+                        <i class="	far fa-file-audio"></i>
+                        Real-time Radar with Sound ESP
+                    </li>
+                    <li>
+                        <i class="fas fa-paint-brush"></i>
+                        Premium Skin Changer
+                    </li>
+                    <li>
+                        <i class="fas fa-shield-virus"></i>
+                        HWID Spoofer & Protection
+                    </li>
+                    <li>
+                        <i class="fas fa-headset"></i>
+                        24/7 Priority Support
+                    </li>
+                </ul>
+                <div class="price-container">
+                    <div>
+                        <div class="price">€1.99</div>
+                        <div class="price-period">Forever</div>
+                    </div>
+                    <a href="https://t.me/exploitsdev" target="_blank" class="buy-button">
+    <i class="fas fa-shopping-cart"></i>
+    Purchase Now
+</a>
+                  <p class="purchase-info">Buying only in Telegram!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="info" class="section">
+            <div class="info-card">
+                <h2 class="info-title">
+                    <i class="fas fa-info-circle"></i>
+                    About PHANTOM.GG
+                </h2>
+                <div class="info-content">
+                  
+         <p>PHANTOM Is the best inexpensive legitimate cheat on CS2 at the moment, a lot of work has been done on the cheat to bypass account blocking</p>
+                    <br>
+                    <p>Our features are designed to give you a competitive edge while maintaining complete undetectability.
+                    We use advanced encryption and protection methods to ensure your account's safety.</p>
+                    <br>
+                    <p>We also have support that is ready to respond almost at any time (approximate time 15:00-21:40, on weekends 10:30-22:15 Berlin time)</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetSection = link.getAttribute('data-section');
+                    
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetSection) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
